@@ -10,6 +10,10 @@ TEMPLATE = lib
 CONFIG += plugins
 CONFIG += dll
 
+contains(QT_VERSION, "^5.*") {
+	QT += widgets
+}
+
 DEFINES += PREVIEWBASE_LIBRARY
 
 SOURCES += previewbase.cpp
@@ -18,3 +22,6 @@ HEADERS += previewbase.h
 
 
 include(../plugin_template.pri)
+
+OTHER_FILES += \
+    previewbase.json
