@@ -10,9 +10,7 @@ TEMPLATE = lib
 CONFIG += plugins
 CONFIG += dll
 
-contains(QT_VERSION, "^5.*") {
-	QT += widgets
-}
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 DEFINES += PREVIEWBASE_LIBRARY
 
