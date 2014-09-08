@@ -51,7 +51,7 @@ bool PreviewBase::init(MOBase::IOrganizer*)
 
 QString PreviewBase::name() const
 {
-  return tr("Preview Base");
+  return "Preview Base";
 }
 
 QString PreviewBase::author() const
