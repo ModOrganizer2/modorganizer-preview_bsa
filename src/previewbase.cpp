@@ -25,6 +25,8 @@ along with Base Preview plugin.  If not, see <http://www.gnu.org/licenses/>.
 #include <QLabel>
 #include <QTextEdit>
 #include <QtPlugin>
+#include <QApplication>
+#include <QDesktopWidget>
 
 
 using namespace MOBase;
@@ -66,7 +68,7 @@ QString PreviewBase::description() const
 
 MOBase::VersionInfo PreviewBase::version() const
 {
-  return VersionInfo(0, 1, 0, VersionInfo::RELEASE_BETA);
+  return VersionInfo(1, 0, 0, VersionInfo::RELEASE_FINAL);
 }
 
 bool PreviewBase::isActive() const
@@ -102,7 +104,16 @@ QWidget *PreviewBase::genFilePreview(const QString &fileName, const QSize &maxSi
 QWidget *PreviewBase::genImagePreview(const QString &fileName, const QSize&) const
 {
   QLabel *label = new QLabel();
-  label->setPixmap(QPixmap(fileName));
+  QPixmap pic = QPixmap(fileName);
+  QSize screenSize = QApplication::desktop()->screenGeometry().size();
+  // ensure the output image is no more than 80% of the screen height.
+  // If the aspect ratio is higher than that of the screen this would still allow the image to extend
+  // beyond the screen but it ensures you can drag the window and close it
+  int maxHeight = static_cast<int>(screenSize.height() * 0.8f);
+  if (pic.size().height() > maxHeight) {
+    pic = pic.scaledToHeight(maxHeight, Qt::SmoothTransformation);
+  }
+  label->setPixmap(pic);
   return label;
 }
 
