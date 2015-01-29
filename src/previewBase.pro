@@ -10,7 +10,7 @@ TEMPLATE = lib
 CONFIG += plugins
 CONFIG += dll
 
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets gui
 
 DEFINES += PREVIEWBASE_LIBRARY
 
