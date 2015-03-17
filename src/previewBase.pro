@@ -22,4 +22,5 @@ HEADERS += previewbase.h
 include(../plugin_template.pri)
 
 OTHER_FILES += \
-    previewbase.json
+    previewbase.json\
+    SConscript
