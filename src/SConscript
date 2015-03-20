@@ -6,3 +6,6 @@ env.AppendUnique(CPPDEFINES = [ 'PREVIEWBASE_LIBRARY' ])
 
 lib = env.SharedLibrary('previewBase', env.Glob('*.cpp'))
 env.InstallModule(lib)
+
+res = env['QT_USED_MODULES']
+Return('res')
