@@ -84,7 +84,7 @@ QList<MOBase::PluginSetting> PreviewBase::settings() const
 std::set<QString> PreviewBase::supportedExtensions() const
 {
   std::set<QString> extensions;
-  foreach (const auto &generator, m_PreviewGenerators) {
+  for (const auto &generator : m_PreviewGenerators) {
     extensions.insert(generator.first);
   }
 
@@ -93,7 +93,7 @@ std::set<QString> PreviewBase::supportedExtensions() const
 
 QWidget *PreviewBase::genFilePreview(const QString &fileName, const QSize &maxSize) const
 {
-  auto iter = m_PreviewGenerators.find(QFileInfo(fileName).completeSuffix().toLower());
+  auto iter = m_PreviewGenerators.find(QFileInfo(fileName).suffix().toLower());
   if (iter != m_PreviewGenerators.end()) {
     return iter->second(fileName, maxSize);
   } else {
