@@ -31,9 +31,11 @@ SET(default_project_path "${CMAKE_SOURCE_DIR}/../..")
 GET_FILENAME_COMPONENT(${default_project_path} ${default_project_path} REALPATH)
 
 SET(project_path "${default_project_path}" CACHE PATH "path to the other mo projects")
+SET(lib_path "${project_path}/../install/libs")
+
 
 INCLUDE_DIRECTORIES(${project_path}/uibase/src)
-LINK_DIRECTORIES(${project_path}/uibase/src)
+LINK_DIRECTORIES(${lib_path})
 
 
 ADD_LIBRARY(${PROJ_NAME} SHARED ${${PROJ_NAME}_HDRS} ${${PROJ_NAME}_SRCS} ${${PROJ_NAME}_UIHDRS})
