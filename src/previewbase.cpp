@@ -48,8 +48,12 @@ PreviewBase::PreviewBase()
   }
 
   auto textReader = std::bind(&PreviewBase::genTxtPreview, this, std::placeholders::_1, std::placeholders::_2);
-  m_PreviewGenerators["txt"] = textReader;
-  m_PreviewGenerators["ini"] = textReader;
+  m_PreviewGenerators["txt"]  = textReader;
+  m_PreviewGenerators["ini"]  = textReader;
+  m_PreviewGenerators["json"] = textReader;
+  m_PreviewGenerators["log"]  = textReader;
+  m_PreviewGenerators["cfg"]  = textReader;
+
 
 }
 
