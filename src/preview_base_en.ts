@@ -4,7 +4,7 @@
 <context>
     <name>PreviewBase</name>
     <message>
-        <location filename="previewbase.cpp" line="66"/>
+        <location filename="previewbase.cpp" line="73"/>
         <source>Supports previewing various types of data files</source>
         <translation type="unfinished"></translation>
     </message>

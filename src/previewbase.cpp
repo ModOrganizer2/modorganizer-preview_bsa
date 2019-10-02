@@ -38,11 +38,18 @@ PreviewBase::PreviewBase()
   auto imageReader = std::bind(&PreviewBase::genImagePreview, this, std::placeholders::_1, std::placeholders::_2);
 
   foreach (const QByteArray &fileType, QImageReader::supportedImageFormats()) {
-    m_PreviewGenerators[QString(fileType).toLower()] = imageReader;
+    auto strFileType = QString(fileType).toLower();
+
+    // skip dds as that one is handled by the dds preview plugin.
+    if (strFileType == "dds")
+      continue;
+
+    m_PreviewGenerators[strFileType] = imageReader;
   }
 
-  m_PreviewGenerators["txt"]
-    = std::bind(&PreviewBase::genTxtPreview, this, std::placeholders::_1, std::placeholders::_2);
+  auto textReader = std::bind(&PreviewBase::genTxtPreview, this, std::placeholders::_1, std::placeholders::_2);
+  m_PreviewGenerators["txt"] = textReader;
+  m_PreviewGenerators["ini"] = textReader;
 
 }
 
