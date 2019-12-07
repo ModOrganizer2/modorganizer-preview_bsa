@@ -79,7 +79,7 @@ QString PreviewBase::description() const
 
 MOBase::VersionInfo PreviewBase::version() const
 {
-  return VersionInfo(1, 0, 0, VersionInfo::RELEASE_FINAL);
+  return VersionInfo(1, 1, 0, VersionInfo::RELEASE_FINAL);
 }
 
 bool PreviewBase::isActive() const
