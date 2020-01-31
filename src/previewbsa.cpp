@@ -27,6 +27,7 @@ along with Bsa Preview plugin.  If not, see <http://www.gnu.org/licenses/>.
 #include <QtPlugin>
 #include <QApplication>
 #include <QDesktopWidget>
+#include <libbsarch.h>
 
 
 using namespace MOBase;
@@ -45,33 +46,11 @@ bool PreviewBsa::init(IOrganizer *moInfo)
     return true;
   }
 
-  const QStringList& blacklist = m_MOInfo->pluginSetting(name(), "blacklisted_extensions").toString().toLower().split(',');
-
-  // set up image reader to be used for all image types qt (the current installation) supports
-  auto imageReader = std::bind(&PreviewBsa::genImagePreview, this, std::placeholders::_1, std::placeholders::_2);
-
-  foreach(const QByteArray & fileType, QImageReader::supportedImageFormats()) {
-    auto strFileType = QString(fileType).toLower();
-
-    // skip dds as that one is handled by the dds preview plugin.
-    if (strFileType == "dds" || blacklist.contains(strFileType))
-      continue;
-
-    m_PreviewGenerators[strFileType] = imageReader;
-  }
-
-  const QStringList supportedTextFormats = { "txt", "ini", "json", "log", "cfg" };
-
-  auto textReader = std::bind(&PreviewBsa::genTxtPreview, this, std::placeholders::_1, std::placeholders::_2);
-
-  foreach(const QString fileType, supportedTextFormats) {
-
-    // skip blacklisted ones
-    if (blacklist.contains(fileType))
-      continue;
-
-    m_PreviewGenerators[fileType] = textReader;
-  }
+  auto bsaPreview = std::bind(&PreviewBsa::genFilePreview, this, std::placeholders::_1, std::placeholders::_2);
+ 
+  m_PreviewGenerators["bsa"] = bsaPreview;
+  m_PreviewGenerators["ba2"] = bsaPreview;
+  
   return true;
 }
 
@@ -82,17 +61,17 @@ QString PreviewBsa::name() const
 
 QString PreviewBsa::author() const
 {
-  return "Tannin";
+  return "AL12";
 }
 
 QString PreviewBsa::description() const
 {
-  return tr("Supports previewing various types of data files");
+  return tr("Supports previewing contents of Bethesda Archive files, BSAs and BA2s");
 }
 
 MOBase::VersionInfo PreviewBsa::version() const
 {
-  return VersionInfo(1, 1, 0, VersionInfo::RELEASE_FINAL);
+  return VersionInfo(0, 0, 1, VersionInfo::RELEASE_ALPHA);
 }
 
 bool PreviewBsa::isActive() const
@@ -103,9 +82,7 @@ bool PreviewBsa::isActive() const
 QList<MOBase::PluginSetting> PreviewBsa::settings() const
 {
   QList<PluginSetting> result;
-  result.push_back(PluginSetting("enabled", tr("Enable previewing of basic file types, such as images and text files."), QVariant(true)));
-  result.push_back(PluginSetting("blacklisted_extensions", tr("Specify a list of comma separated extensions (without \".\") "
-    "that should not be previewed by this plugin."), QVariant("")));
+  result.push_back(PluginSetting("enabled", tr("Enable previewing of BSA file contents"), QVariant(true)));
   return result;
 }
 
@@ -147,6 +124,10 @@ QWidget *PreviewBsa::genImagePreview(const QString &fileName, const QSize&) cons
 
 QWidget *PreviewBsa::genTxtPreview(const QString &fileName, const QSize&) const
 {
+  /*bs_archive_auto arch; //bs_archive_auto is easier to use, but is less performant when working with memory
+  arch.load_from_disk("C:/Archive.bsa"); //Not expensive
+  const auto& files = arch.list_files(); //Not expensive*/
+
   QTextEdit *edit = new QTextEdit();
   edit->setText(MOBase::readFileText(fileName));
   edit->setReadOnly(true);

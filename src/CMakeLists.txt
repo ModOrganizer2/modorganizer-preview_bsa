@@ -32,15 +32,18 @@ SET(project_path "${default_project_path}" CACHE PATH "path to the other mo proj
 SET(lib_path "${project_path}/../../install/libs")
 
 
-INCLUDE_DIRECTORIES(${project_path}/uibase/src)
-LINK_DIRECTORIES(${lib_path})
+INCLUDE_DIRECTORIES(${project_path}/uibase/src
+                    ${LIBBSARCH_ROOT})
+LINK_DIRECTORIES(${lib_path}
+                 ${LIBBSARCH_ROOT})
 
 
 ADD_LIBRARY(${PROJ_NAME} SHARED ${${PROJ_NAME}_HDRS} ${${PROJ_NAME}_SRCS} ${${PROJ_NAME}_UIHDRS} ${${PROJ_NAME}_translations_qm})
 TARGET_LINK_LIBRARIES(${PROJ_NAME}
                       Qt5::Widgets
                       ${Boost_LIBRARIES}
-                      uibase)
+                      uibase
+                      libbsarch)
 
 SET_TARGET_PROPERTIES(${PROJ_NAME} PROPERTIES COMPILE_FLAGS /GL)
 SET_TARGET_PROPERTIES(${PROJ_NAME} PROPERTIES LINK_FLAGS_RELWITHDEBINFO "/LTCG /LARGEADDRESSAWARE /OPT:REF /OPT:ICF")
