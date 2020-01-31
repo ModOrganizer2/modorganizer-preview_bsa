@@ -16,7 +16,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Bsa Preview plugin.  If not, see <http://www.gnu.org/licenses/>.
 */
-
+#define QT
 
 #include "previewbsa.h"
 #include <utility.h>
@@ -28,9 +28,12 @@ along with Bsa Preview plugin.  If not, see <http://www.gnu.org/licenses/>.
 #include <QApplication>
 #include <QDesktopWidget>
 #include <libbsarch.h>
+#include <bs_archive_auto.hpp>
+using namespace libbsarch;
 
 
 using namespace MOBase;
+
 
 
 PreviewBsa::PreviewBsa()
@@ -46,7 +49,7 @@ bool PreviewBsa::init(IOrganizer *moInfo)
     return true;
   }
 
-  auto bsaPreview = std::bind(&PreviewBsa::genFilePreview, this, std::placeholders::_1, std::placeholders::_2);
+  auto bsaPreview = std::bind(&PreviewBsa::genBsaPreview, this, std::placeholders::_1, std::placeholders::_2);
  
   m_PreviewGenerators["bsa"] = bsaPreview;
   m_PreviewGenerators["ba2"] = bsaPreview;
@@ -122,14 +125,17 @@ QWidget *PreviewBsa::genImagePreview(const QString &fileName, const QSize&) cons
   return label;
 }
 
-QWidget *PreviewBsa::genTxtPreview(const QString &fileName, const QSize&) const
+QWidget *PreviewBsa::genBsaPreview(const QString &fileName, const QSize&) const
 {
-  /*bs_archive_auto arch; //bs_archive_auto is easier to use, but is less performant when working with memory
-  arch.load_from_disk("C:/Archive.bsa"); //Not expensive
-  const auto& files = arch.list_files(); //Not expensive*/
-
+  bs_archive_auto arch; //bs_archive_auto is easier to use, but is less performant when working with memory
+  arch.load_from_disk("C:/Archive.bsa");
+  const auto& files = arch.list_files();
+  QString result = "";
+  for (auto file : files) {
+    result = result + QString(file) + "\n";
+  }
   QTextEdit *edit = new QTextEdit();
-  edit->setText(MOBase::readFileText(fileName));
+  edit->setText(result);
   edit->setReadOnly(true);
   return edit;
 }

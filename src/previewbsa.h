@@ -52,7 +52,7 @@ public:
 private:
 
   QWidget *genImagePreview(const QString &fileName, const QSize &maxSize) const;
-  QWidget *genTxtPreview(const QString &fileName, const QSize &maxSize) const;
+  QWidget *genBsaPreview(const QString &fileName, const QSize &maxSize) const;
 
 private:
   std::map<QString, std::function<QWidget*(const QString&, const QSize&)> > m_PreviewGenerators;
