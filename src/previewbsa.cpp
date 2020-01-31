@@ -97,7 +97,7 @@ MOBase::VersionInfo PreviewBsa::version() const
 
 bool PreviewBsa::isActive() const
 {
-  m_MOInfo->pluginSetting(name(), "enabled").toBool();
+  return m_MOInfo->pluginSetting(name(), "enabled").toBool();
 }
 
 QList<MOBase::PluginSetting> PreviewBsa::settings() const
