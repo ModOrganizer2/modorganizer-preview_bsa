@@ -33,32 +33,45 @@ using namespace MOBase;
 
 
 PreviewBsa::PreviewBsa()
+  : m_MOInfo(nullptr)
 {
+}
+
+bool PreviewBsa::init(IOrganizer *moInfo)
+{
+  m_MOInfo = moInfo;
+
+  if (!isActive()) {
+    return true;
+  }
+
+  const QStringList& blacklist = m_MOInfo->pluginSetting(name(), "blacklisted_extensions").toString().toLower().split(',');
+
   // set up image reader to be used for all image types qt (the current installation) supports
   auto imageReader = std::bind(&PreviewBsa::genImagePreview, this, std::placeholders::_1, std::placeholders::_2);
 
-  foreach (const QByteArray &fileType, QImageReader::supportedImageFormats()) {
+  foreach(const QByteArray & fileType, QImageReader::supportedImageFormats()) {
     auto strFileType = QString(fileType).toLower();
 
     // skip dds as that one is handled by the dds preview plugin.
-    if (strFileType == "dds")
+    if (strFileType == "dds" || blacklist.contains(strFileType))
       continue;
 
     m_PreviewGenerators[strFileType] = imageReader;
   }
 
+  const QStringList supportedTextFormats = { "txt", "ini", "json", "log", "cfg" };
+
   auto textReader = std::bind(&PreviewBsa::genTxtPreview, this, std::placeholders::_1, std::placeholders::_2);
-  m_PreviewGenerators["txt"]  = textReader;
-  m_PreviewGenerators["ini"]  = textReader;
-  m_PreviewGenerators["json"] = textReader;
-  m_PreviewGenerators["log"]  = textReader;
-  m_PreviewGenerators["cfg"]  = textReader;
-  
 
-}
+  foreach(const QString fileType, supportedTextFormats) {
 
-bool PreviewBsa::init(MOBase::IOrganizer*)
-{
+    // skip blacklisted ones
+    if (blacklist.contains(fileType))
+      continue;
+
+    m_PreviewGenerators[fileType] = textReader;
+  }
   return true;
 }
 
@@ -84,12 +97,16 @@ MOBase::VersionInfo PreviewBsa::version() const
 
 bool PreviewBsa::isActive() const
 {
-  return true;
+  m_MOInfo->pluginSetting(name(), "enabled").toBool();
 }
 
 QList<MOBase::PluginSetting> PreviewBsa::settings() const
 {
-  return QList<MOBase::PluginSetting>();
+  QList<PluginSetting> result;
+  result.push_back(PluginSetting("enabled", tr("Enable previewing of basic file types, such as images and text files."), QVariant(true)));
+  result.push_back(PluginSetting("blacklisted_extensions", tr("Specify a list of comma separated extensions (without \".\") "
+    "that should not be previewed by this plugin."), QVariant("")));
+  return result;
 }
 
 std::set<QString> PreviewBsa::supportedExtensions() const

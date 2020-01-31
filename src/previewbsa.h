@@ -57,6 +57,9 @@ private:
 private:
   std::map<QString, std::function<QWidget*(const QString&, const QSize&)> > m_PreviewGenerators;
 
+private:
+  const MOBase::IOrganizer* m_MOInfo;
+
 };
 
 #endif // PREVIEWBSA_H
