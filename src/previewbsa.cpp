@@ -19,6 +19,7 @@ along with Bsa Preview plugin.  If not, see <http://www.gnu.org/licenses/>.
 #define QT
 
 #include "previewbsa.h"
+#include "simplefiletreemodel.h"
 #include <utility.h>
 #include <QImageReader>
 #include <QFileInfo>
@@ -27,6 +28,7 @@ along with Bsa Preview plugin.  If not, see <http://www.gnu.org/licenses/>.
 #include <QtPlugin>
 #include <QApplication>
 #include <QDesktopWidget>
+#include <QTreeView>
 #include <libbsarch.h>
 #include <bs_archive_auto.hpp>
 using namespace libbsarch;
@@ -130,14 +132,20 @@ QWidget *PreviewBsa::genBsaPreview(const QString &fileName, const QSize&) const
   bs_archive_auto arch; //bs_archive_auto is easier to use, but is less performant when working with memory
   arch.load_from_disk(fileName);
   const auto& files = arch.list_files();
-  QString result = "";
+  QStringList result;
   for (auto file : files) {
-    result = result + QString(file) + "\n";
+    result << QString(file);
   }
-  QTextEdit *edit = new QTextEdit();
+
+  QTreeView* view = new QTreeView();
+  SimpleFileTreeModel model(result);
+  view->setModel(&model);
+
+
+  /*QTextEdit *edit = new QTextEdit();
   edit->setText(result);
-  edit->setReadOnly(true);
-  return edit;
+  edit->setReadOnly(true);*/
+  return view;
 }
 
 #if QT_VERSION < QT_VERSION_CHECK(5,0,0)
