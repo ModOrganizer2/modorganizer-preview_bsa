@@ -33,6 +33,7 @@ along with Bsa Preview plugin.  If not, see <http://www.gnu.org/licenses/>.
 #include <bs_archive_auto.hpp>
 #include <QStandardItemModel>
 #include <QTreeWidget>
+#include <QVBoxLayout>
 using namespace libbsarch;
 
 
@@ -78,7 +79,7 @@ QString PreviewBsa::description() const
 
 MOBase::VersionInfo PreviewBsa::version() const
 {
-  return VersionInfo(0, 1, 0, VersionInfo::RELEASE_BETA);
+  return VersionInfo(0, 2, 0, VersionInfo::RELEASE_BETA);
 }
 
 bool PreviewBsa::isActive() const
@@ -123,12 +124,22 @@ QWidget *PreviewBsa::genBsaPreview(const QString &fileName, const QSize&) const
     result << QString(file);
   }
 
-  QFrame* wrapper = new QFrame();
-  QTreeView* view = new QTreeView(wrapper);
+  QWidget* wrapper = new QWidget();
+  QVBoxLayout* layout = new QVBoxLayout();
+
+  QLabel* infoLabel = new QLabel();
+  QString infoString = tr("Archive Format: %1 , Compression: %2 , File count: %3 , Version: %4 , Archive type: %5 , Archive flags: %6");
+  infoString = infoString.arg(arch.get_format_name()).arg(arch.get_compressed() ? tr("yes") : tr("no"))
+    .arg(arch.get_file_count()).arg(arch.get_version()).arg(arch.get_type()).arg("0x" + QString::number(arch.get_archive_flags(), 16));
+  infoLabel->setText(infoString);
+  layout->addWidget(infoLabel);
+
+  QTreeView* view = new QTreeView();
   SimpleFileTreeModel* model = new SimpleFileTreeModel(result);
   view->setModel(model);
-  view->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-  wrapper->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+  layout->addWidget(view);
+
+  wrapper->setLayout(layout);
   return wrapper;
 }
 

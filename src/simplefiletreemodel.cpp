@@ -19,7 +19,7 @@ SimpleFileTreeModel::SimpleFileTreeModel(const QStringList& data, QObject* paren
   m_FolderIcon = provider->icon(QFileIconProvider::Folder);
   m_FileIcon = provider->icon(QFileIconProvider::File);
   delete provider;
-  m_RootItem = new SimpleFileTreeItem({ tr("File") });
+  m_RootItem = new SimpleFileTreeItem({ tr("File Name") });
   setupModelData(data, m_RootItem);
 }
 
