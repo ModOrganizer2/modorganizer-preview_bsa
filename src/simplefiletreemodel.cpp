@@ -10,11 +10,16 @@
 
 #include <QStringList>
 #include <QDir>
+#include <QFileIconProvider>
 
 SimpleFileTreeModel::SimpleFileTreeModel(const QStringList& data, QObject* parent)
   : QAbstractItemModel(parent)
 {
-  m_RootItem = new SimpleFileTreeItem({ tr("Name") });
+  QFileIconProvider* provider = new QFileIconProvider();
+  m_FolderIcon = provider->icon(QFileIconProvider::Folder);
+  m_FileIcon = provider->icon(QFileIconProvider::File);
+  delete provider;
+  m_RootItem = new SimpleFileTreeItem({ tr("File") });
   setupModelData(data, m_RootItem);
 }
 
@@ -35,10 +40,19 @@ QVariant SimpleFileTreeModel::data(const QModelIndex& index, int role) const
   if (!index.isValid())
     return QVariant();
 
+  SimpleFileTreeItem* item = static_cast<SimpleFileTreeItem*>(index.internalPointer());
+
+  if (role == Qt::DecorationRole) {
+    if (item->childCount() > 0) {
+      return m_FolderIcon;
+    }
+    else {
+      return m_FileIcon;
+    }
+  }
+
   if (role != Qt::DisplayRole)
     return QVariant();
-
-  SimpleFileTreeItem* item = static_cast<SimpleFileTreeItem*>(index.internalPointer());
 
   return item->data(index.column());
 }
@@ -108,14 +122,6 @@ int SimpleFileTreeModel::rowCount(const QModelIndex& parent) const
 
 void SimpleFileTreeModel::setupModelData(const QStringList& lines, SimpleFileTreeItem* parent)
 {
-  QVector<SimpleFileTreeItem*> parents;
-  QVector<int> indentations;
-  parents << parent;
-  indentations << 0;
-
-  int number = 0;
-
-
   for (QString line : lines) {
     auto fullPath = QDir::cleanPath(line);
     QStringList lineEntries = fullPath.split("/");
@@ -148,47 +154,4 @@ void SimpleFileTreeModel::setupModelData(const QStringList& lines, SimpleFileTre
       currentParent = currentEntry;
     }
   }
-
-  /*
-  while (number < lines.count()) {
-
-    int position = 0;
-    while (position < lines[number].length()) {
-      if (lines[number].at(position) != ' ')
-        break;
-      position++;
-    }
-
-    const QString lineData = lines[number].mid(position).trimmed();
-
-    if (!lineData.isEmpty()) {
-      // Read the column data from the rest of the line.
-      const QStringList columnStrings = lineData.split('\t', QString::SkipEmptyParts);
-      QVector<QVariant> columnData;
-      columnData.reserve(columnStrings.count());
-      for (const QString& columnString : columnStrings)
-        columnData << columnString;
-
-      if (position > indentations.last()) {
-        // The last child of the current parent is now the new parent
-        // unless the current parent has no children.
-
-        if (parents.last()->childCount() > 0) {
-          parents << parents.last()->child(parents.last()->childCount() - 1);
-          indentations << position;
-        }
-      }
-      else {
-        while (position < indentations.last() && parents.count() > 0) {
-          parents.pop_back();
-          indentations.pop_back();
-        }
-      }
-
-      // Append a new item to the current parent's list of children.
-      parents.last()->appendChild(new SimpleFileTreeItem(columnData, parents.last()));
-    }
-    ++number;
-    
-  }*/
 }

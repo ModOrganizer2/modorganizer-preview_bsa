@@ -31,6 +31,8 @@ along with Bsa Preview plugin.  If not, see <http://www.gnu.org/licenses/>.
 #include <QTreeView>
 #include <libbsarch.h>
 #include <bs_archive_auto.hpp>
+#include <QStandardItemModel>
+#include <QTreeWidget>
 using namespace libbsarch;
 
 
@@ -76,7 +78,7 @@ QString PreviewBsa::description() const
 
 MOBase::VersionInfo PreviewBsa::version() const
 {
-  return VersionInfo(0, 0, 1, VersionInfo::RELEASE_ALPHA);
+  return VersionInfo(0, 1, 0, VersionInfo::RELEASE_BETA);
 }
 
 bool PreviewBsa::isActive() const
@@ -111,22 +113,6 @@ QWidget *PreviewBsa::genFilePreview(const QString &fileName, const QSize &maxSiz
   }
 }
 
-QWidget *PreviewBsa::genImagePreview(const QString &fileName, const QSize&) const
-{
-  QLabel *label = new QLabel();
-  QPixmap pic = QPixmap(fileName);
-  QSize screenSize = QApplication::desktop()->screenGeometry().size();
-  // ensure the output image is no more than 80% of the screen height.
-  // If the aspect ratio is higher than that of the screen this would still allow the image to extend
-  // beyond the screen but it ensures you can drag the window and close it
-  int maxHeight = static_cast<int>(screenSize.height() * 0.8f);
-  if (pic.size().height() > maxHeight) {
-    pic = pic.scaledToHeight(maxHeight, Qt::SmoothTransformation);
-  }
-  label->setPixmap(pic);
-  return label;
-}
-
 QWidget *PreviewBsa::genBsaPreview(const QString &fileName, const QSize&) const
 {
   bs_archive_auto arch; //bs_archive_auto is easier to use, but is less performant when working with memory
@@ -137,15 +123,13 @@ QWidget *PreviewBsa::genBsaPreview(const QString &fileName, const QSize&) const
     result << QString(file);
   }
 
-  QTreeView* view = new QTreeView();
-  SimpleFileTreeModel model(result);
-  view->setModel(&model);
-
-
-  /*QTextEdit *edit = new QTextEdit();
-  edit->setText(result);
-  edit->setReadOnly(true);*/
-  return view;
+  QFrame* wrapper = new QFrame();
+  QTreeView* view = new QTreeView(wrapper);
+  SimpleFileTreeModel* model = new SimpleFileTreeModel(result);
+  view->setModel(model);
+  view->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+  wrapper->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+  return wrapper;
 }
 
 #if QT_VERSION < QT_VERSION_CHECK(5,0,0)

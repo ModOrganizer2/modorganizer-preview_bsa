@@ -51,7 +51,6 @@ public:
 
 private:
 
-  QWidget *genImagePreview(const QString &fileName, const QSize &maxSize) const;
   QWidget *genBsaPreview(const QString &fileName, const QSize &maxSize) const;
 
 private:

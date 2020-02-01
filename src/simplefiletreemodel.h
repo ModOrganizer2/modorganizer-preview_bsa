@@ -4,6 +4,7 @@
 #include <QAbstractItemModel>
 #include <QModelIndex>
 #include <QVariant>
+#include <QIcon>
 
 class SimpleFileTreeItem;
 
@@ -30,6 +31,8 @@ private:
   void setupModelData(const QStringList& lines, SimpleFileTreeItem* parent);
   const int m_ColumnCount = 1;
   SimpleFileTreeItem* m_RootItem;
+  QIcon m_FileIcon;
+  QIcon m_FolderIcon;
 };
 
 #endif // SIMPLEFILETREEMODEL_H
