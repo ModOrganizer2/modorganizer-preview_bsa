@@ -128,7 +128,7 @@ QWidget *PreviewBsa::genImagePreview(const QString &fileName, const QSize&) cons
 QWidget *PreviewBsa::genBsaPreview(const QString &fileName, const QSize&) const
 {
   bs_archive_auto arch; //bs_archive_auto is easier to use, but is less performant when working with memory
-  arch.load_from_disk("C:/Archive.bsa");
+  arch.load_from_disk(fileName);
   const auto& files = arch.list_files();
   QString result = "";
   for (auto file : files) {
