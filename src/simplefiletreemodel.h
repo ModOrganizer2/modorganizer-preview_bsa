@@ -5,6 +5,10 @@
 #include <QModelIndex>
 #include <QVariant>
 #include <QIcon>
+#include <filterwidget.h>
+#include <QLineEdit>
+
+using namespace MOBase;
 
 class SimpleFileTreeItem;
 
@@ -15,6 +19,9 @@ class SimpleFileTreeModel : public QAbstractItemModel
 public:
   explicit SimpleFileTreeModel(const QStringList& data, QObject* parent = nullptr);
   ~SimpleFileTreeModel();
+
+  void setFilterWidgetList(QAbstractItemView* list) { m_FilterWidget.setList(list); }
+  void setFilterWidgetEdit(QLineEdit* edit) { m_FilterWidget.setEdit(edit); }
 
   QVariant data(const QModelIndex& index, int role) const override;
   Qt::ItemFlags flags(const QModelIndex& index) const override;
@@ -31,6 +38,7 @@ private:
   void setupModelData(const QStringList& lines, SimpleFileTreeItem* parent);
   const int m_ColumnCount = 1;
   SimpleFileTreeItem* m_RootItem;
+  FilterWidget m_FilterWidget;
   QIcon m_FileIcon;
   QIcon m_FolderIcon;
 };

@@ -34,6 +34,9 @@ along with Bsa Preview plugin.  If not, see <http://www.gnu.org/licenses/>.
 #include <QStandardItemModel>
 #include <QTreeWidget>
 #include <QVBoxLayout>
+#include <QLineEdit>
+#include <filterwidget.h>
+
 using namespace libbsarch;
 
 
@@ -79,7 +82,7 @@ QString PreviewBsa::description() const
 
 MOBase::VersionInfo PreviewBsa::version() const
 {
-  return VersionInfo(0, 2, 0, VersionInfo::RELEASE_BETA);
+  return VersionInfo(0, 3, 0, VersionInfo::RELEASE_BETA);
 }
 
 bool PreviewBsa::isActive() const
@@ -128,9 +131,15 @@ QWidget *PreviewBsa::genBsaPreview(const QString &fileName, const QSize&) const
   QVBoxLayout* layout = new QVBoxLayout();
 
   QLabel* infoLabel = new QLabel();
-  QString infoString = tr("Archive Format: %1 , Compression: %2 , File count: %3 , Version: %4 , Archive type: %5 , Archive flags: %6");
-  infoString = infoString.arg(arch.get_format_name()).arg(arch.get_compressed() ? tr("yes") : tr("no"))
-    .arg(arch.get_file_count()).arg(arch.get_version()).arg(arch.get_type()).arg("0x" + QString::number(arch.get_archive_flags(), 16));
+  QString infoString = tr("Archive Format: %1 , Compression: %2 , File count: %3 , Version: %4 , Archive type: %5 , Archive flags: %6 , Contents flags: %7");
+  infoString = infoString
+    .arg(arch.get_format_name())
+    .arg(arch.get_compressed() ? tr("yes") : tr("no"))
+    .arg(arch.get_file_count())
+    .arg(arch.get_version())
+    .arg(arch.get_type())
+    .arg("0x" + QString::number(arch.get_archive_flags(), 16))
+    .arg("0x" + QString::number(arch.get_file_flags(), 16));
   infoLabel->setText(infoString);
   layout->addWidget(infoLabel);
 
@@ -138,6 +147,14 @@ QWidget *PreviewBsa::genBsaPreview(const QString &fileName, const QSize&) const
   SimpleFileTreeModel* model = new SimpleFileTreeModel(result);
   view->setModel(model);
   layout->addWidget(view);
+
+
+  QLineEdit* lineEdit = new QLineEdit();
+  layout->addWidget(lineEdit);
+
+  model->setFilterWidgetEdit(lineEdit);
+  model->setFilterWidgetList(view);
+
 
   wrapper->setLayout(layout);
   return wrapper;
