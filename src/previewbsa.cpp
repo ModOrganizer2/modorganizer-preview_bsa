@@ -82,7 +82,7 @@ QString PreviewBsa::description() const
 
 MOBase::VersionInfo PreviewBsa::version() const
 {
-  return VersionInfo(0, 3, 0, VersionInfo::RELEASE_BETA);
+  return VersionInfo(0, 3, 1, VersionInfo::RELEASE_BETA);
 }
 
 bool PreviewBsa::isActive() const
@@ -145,9 +145,9 @@ QWidget *PreviewBsa::genBsaPreview(const QString &fileName, const QSize&) const
 
   QTreeView* view = new QTreeView();
   SimpleFileTreeModel* model = new SimpleFileTreeModel(result);
+
   view->setModel(model);
   layout->addWidget(view);
-
 
   QLineEdit* lineEdit = new QLineEdit();
   layout->addWidget(lineEdit);
@@ -155,6 +155,8 @@ QWidget *PreviewBsa::genBsaPreview(const QString &fileName, const QSize&) const
   model->setFilterWidgetEdit(lineEdit);
   model->setFilterWidgetList(view);
 
+  view->setSortingEnabled(true);
+  view->sortByColumn(0, Qt::SortOrder::AscendingOrder);
 
   wrapper->setLayout(layout);
   return wrapper;
