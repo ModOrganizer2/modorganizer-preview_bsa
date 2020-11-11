@@ -39,10 +39,10 @@ public:
 public:
   virtual bool init(MOBase::IOrganizer *moInfo);
   virtual QString name() const;
+  virtual QString localizedName() const;
   virtual QString author() const;
   virtual QString description() const;
   virtual MOBase::VersionInfo version() const;
-  virtual bool isActive() const;
   virtual QList<MOBase::PluginSetting> settings() const;
 
 public:
