@@ -53,21 +53,22 @@ bool PreviewBsa::init(IOrganizer *moInfo)
 {
   m_MOInfo = moInfo;
 
-  if (!isActive()) {
-    return true;
-  }
-
   auto bsaPreview = std::bind(&PreviewBsa::genBsaPreview, this, std::placeholders::_1, std::placeholders::_2);
- 
+
   m_PreviewGenerators["bsa"] = bsaPreview;
   m_PreviewGenerators["ba2"] = bsaPreview;
-  
+
   return true;
 }
 
 QString PreviewBsa::name() const
 {
   return "Preview Bsa";
+}
+
+QString PreviewBsa::localizedName() const
+{
+  return tr("Preview BSA");
 }
 
 QString PreviewBsa::author() const
@@ -83,11 +84,6 @@ QString PreviewBsa::description() const
 MOBase::VersionInfo PreviewBsa::version() const
 {
   return VersionInfo(1, 0, 0, VersionInfo::RELEASE_FINAL);
-}
-
-bool PreviewBsa::isActive() const
-{
-  return m_MOInfo->pluginSetting(name(), "enabled").toBool();
 }
 
 QList<MOBase::PluginSetting> PreviewBsa::settings() const
