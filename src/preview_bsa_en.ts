@@ -4,27 +4,32 @@
 <context>
     <name>PreviewBsa</name>
     <message>
-        <location filename="previewbsa.cpp" line="80"/>
+        <location filename="previewbsa.cpp" line="71"/>
+        <source>Preview BSA</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="previewbsa.cpp" line="81"/>
         <source>Supports previewing contents of Bethesda Archive files, BSAs and BA2s</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="previewbsa.cpp" line="96"/>
+        <location filename="previewbsa.cpp" line="92"/>
         <source>Enable previewing of BSA file contents</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="previewbsa.cpp" line="134"/>
+        <location filename="previewbsa.cpp" line="130"/>
         <source>Archive Format: %1 , Compression: %2 , File count: %3 , Version: %4 , Archive type: %5 , Archive flags: %6 , Contents flags: %7</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="previewbsa.cpp" line="137"/>
+        <location filename="previewbsa.cpp" line="133"/>
         <source>yes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="previewbsa.cpp" line="137"/>
+        <location filename="previewbsa.cpp" line="133"/>
         <source>no</source>
         <translation type="unfinished"></translation>
     </message>
