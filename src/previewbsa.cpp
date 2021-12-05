@@ -27,7 +27,7 @@ along with Bsa Preview plugin.  If not, see <http://www.gnu.org/licenses/>.
 #include <QTextEdit>
 #include <QtPlugin>
 #include <QApplication>
-#include <QDesktopWidget>
+#include <QScreen>
 #include <QTreeView>
 #include <libbsarch.h>
 #include <bs_archive_auto.hpp>
