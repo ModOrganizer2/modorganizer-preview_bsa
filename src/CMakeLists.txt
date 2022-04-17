@@ -1,7 +1,5 @@
 cmake_minimum_required(VERSION 3.16)
-if(DEFINED DEPENDENCIES_DIR)
-	include(${DEPENDENCIES_DIR}/modorganizer_super/cmake_common/src.cmake)
-else()
-	include(../../cmake_common/src.cmake)
-endif()
-requires_library(libbsarch)
+
+add_library(preview_bsa SHARED)
+mo2_configure_plugin(preview_bsa WARNINGS OFF PRIVATE_DEPENDS libbsarch)
+mo2_install_target(preview_bsa)
