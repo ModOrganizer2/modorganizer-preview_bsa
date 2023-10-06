@@ -24,6 +24,8 @@ along with bsa Preview plugin.  If not, see <http://www.gnu.org/licenses/>.
 #include <ipluginpreview.h>
 #include <functional>
 
+#include <bsatk.h>
+
 class PreviewBsa : public MOBase::IPluginPreview
 {
 
@@ -50,14 +52,17 @@ public:
   virtual QWidget *genFilePreview(const QString &fileName, const QSize &maxSize) const;
 
 private:
-
-  QWidget *genBsaPreview(const QString &fileName, const QSize &maxSize) const;
+  void readFiles(const BSA::Folder::Ptr folder);
+  QWidget *genBsaPreview(const QString &fileName, const QSize &maxSize);
+  QString getFormat(ArchiveType type) const;
+  BSAULong getVersion(ArchiveType type) const;
 
 private:
   std::map<QString, std::function<QWidget*(const QString&, const QSize&)> > m_PreviewGenerators;
 
 private:
   const MOBase::IOrganizer* m_MOInfo;
+  QStringList m_Files;
 
 };
 
