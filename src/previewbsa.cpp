@@ -66,7 +66,7 @@ QString PreviewBsa::localizedName() const
 
 QString PreviewBsa::author() const
 {
-    return "AL12";
+    return "AL12 & MO2 Team";
 }
 
 QString PreviewBsa::description() const
@@ -76,7 +76,7 @@ QString PreviewBsa::description() const
 
 MOBase::VersionInfo PreviewBsa::version() const
 {
-    return VersionInfo(1, 0, 0, VersionInfo::RELEASE_FINAL);
+    return VersionInfo(1, 1, 0, VersionInfo::RELEASE_FINAL);
 }
 
 QList<MOBase::PluginSetting> PreviewBsa::settings() const
