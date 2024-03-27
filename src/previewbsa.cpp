@@ -150,7 +150,7 @@ QWidget* PreviewBsa::genBsaPreview(const QString& fileName, const QSize&)
     // tr("Archive Format: %1 , Compression: %2 , File count: %3 , Version: %4 , "
     //    "Archive type: %5 , Archive flags: %6 , Contents flags: %7");
     infoString = infoString.arg(getFormat(arch.getType()))
-                     .arg((arch.getFlags() | 0x00000004) ? tr("yes") : tr("no"))
+                     .arg((arch.getFlags() & 0x00000004) ? tr("yes") : tr("no"))
                      .arg(m_Files.size())
                      .arg(getVersion(arch.getType()))
                      .arg(arch.getType())
