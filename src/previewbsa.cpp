@@ -198,7 +198,7 @@ QString PreviewBsa::getFormat(ArchiveType type) const
         return "Starfield DDS LZ4";
     case ArchiveType::TYPE_FALLOUT4NG_7:
     case ArchiveType::TYPE_FALLOUT4NG_8:
-        return "Fallout 4 NextGen Textures";
+        return "Fallout 4 NextGen";
     default:
         throw data_invalid_exception(makeString("invalid type %d", type));
     }
