@@ -196,6 +196,9 @@ QString PreviewBsa::getFormat(ArchiveType type) const
         return "Starfield";
     case ArchiveType::TYPE_STARFIELD_LZ4_TEXTURE:
         return "Starfield DDS LZ4";
+    case ArchiveType::TYPE_FALLOUT4NG_7:
+    case ArchiveType::TYPE_FALLOUT4NG_8:
+        return "Fallout 4 NextGen";
     default:
         throw data_invalid_exception(makeString("invalid type %d", type));
     }
@@ -218,6 +221,10 @@ BSAULong PreviewBsa::getVersion(ArchiveType type) const
         return 0x02;
     case TYPE_STARFIELD_LZ4_TEXTURE:
         return 0x03;
+    case TYPE_FALLOUT4NG_7:
+        return 0x07;
+    case TYPE_FALLOUT4NG_8:
+        return 0x08;
     default:
         throw data_invalid_exception(makeString("invalid type %d", type));
     }
