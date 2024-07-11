@@ -8,8 +8,9 @@
 
 #include "simplefiletreeitem.h"
 
-SimpleFileTreeItem::SimpleFileTreeItem(const QVector<QVariant>& data, SimpleFileTreeItem* parent)
-  : m_itemData(data), m_parentItem(parent)
+SimpleFileTreeItem::SimpleFileTreeItem(const QVector<QVariant>& data,
+                                       SimpleFileTreeItem* parent)
+    : m_itemData(data), m_parentItem(parent)
 {}
 
 SimpleFileTreeItem::~SimpleFileTreeItem()

@@ -7,7 +7,8 @@
 class SimpleFileTreeItem
 {
 public:
-  explicit SimpleFileTreeItem(const QVector<QVariant>& data, SimpleFileTreeItem* parentItem = nullptr);
+  explicit SimpleFileTreeItem(const QVector<QVariant>& data,
+                              SimpleFileTreeItem* parentItem = nullptr);
   ~SimpleFileTreeItem();
 
   void appendChild(SimpleFileTreeItem* child);
@@ -26,4 +27,4 @@ private:
   SimpleFileTreeItem* m_parentItem;
 };
 
-#endif // SIMPLEFILETREEITEM_H
+#endif  // SIMPLEFILETREEITEM_H

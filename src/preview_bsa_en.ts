@@ -4,32 +4,32 @@
 <context>
     <name>PreviewBsa</name>
     <message>
-        <location filename="previewbsa.cpp" line="71"/>
+        <location filename="previewbsa.cpp" line="64"/>
         <source>Preview BSA</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="previewbsa.cpp" line="81"/>
+        <location filename="previewbsa.cpp" line="74"/>
         <source>Supports previewing contents of Bethesda Archive files, BSAs and BA2s</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="previewbsa.cpp" line="92"/>
+        <location filename="previewbsa.cpp" line="86"/>
         <source>Enable previewing of BSA file contents</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="previewbsa.cpp" line="130"/>
-        <source>Archive Format: %1 , Compression: %2 , File count: %3 , Version: %4 , Archive type: %5 , Archive flags: %6 , Contents flags: %7</source>
+        <location filename="previewbsa.cpp" line="148"/>
+        <source>Archive Format: %1 , Compression: %2 , File count: %3 , Version: %4 , Archive type: %5 , Archive flags: %6</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="previewbsa.cpp" line="133"/>
+        <location filename="previewbsa.cpp" line="153"/>
         <source>yes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="previewbsa.cpp" line="133"/>
+        <location filename="previewbsa.cpp" line="153"/>
         <source>no</source>
         <translation type="unfinished"></translation>
     </message>
