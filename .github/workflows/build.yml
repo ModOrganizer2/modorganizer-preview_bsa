@@ -13,4 +13,5 @@ jobs:
       - name: Build Preview BSA Plugin
         uses: ModOrganizer2/build-with-mob-action@master
         with:
+          mo2-third-parties: zlib boost lz4 DirectXTex
           mo2-dependencies: cmake_common uibase bsatk
