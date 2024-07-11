@@ -8,18 +8,18 @@
 #include "simplefiletreemodel.h"
 #include "simplefiletreeitem.h"
 
-#include <QStringList>
 #include <QDir>
 #include <QFileIconProvider>
+#include <QStringList>
 
 SimpleFileTreeModel::SimpleFileTreeModel(const QStringList& data, QObject* parent)
-  : QAbstractItemModel(parent)
+    : QAbstractItemModel(parent)
 {
   QFileIconProvider* provider = new QFileIconProvider();
-  m_FolderIcon = provider->icon(QFileIconProvider::Folder);
-  m_FileIcon = provider->icon(QFileIconProvider::File);
+  m_FolderIcon                = provider->icon(QFileIconProvider::Folder);
+  m_FileIcon                  = provider->icon(QFileIconProvider::File);
   delete provider;
-  m_RootItem = new SimpleFileTreeItem({ tr("File Name") });
+  m_RootItem = new SimpleFileTreeItem({tr("File Name")});
   setupModelData(data, m_RootItem);
 }
 
@@ -45,8 +45,7 @@ QVariant SimpleFileTreeModel::data(const QModelIndex& index, int role) const
   if (role == Qt::DecorationRole) {
     if (item->childCount() > 0) {
       return m_FolderIcon;
-    }
-    else {
+    } else {
       return m_FileIcon;
     }
   }
@@ -66,7 +65,7 @@ Qt::ItemFlags SimpleFileTreeModel::flags(const QModelIndex& index) const
 }
 
 QVariant SimpleFileTreeModel::headerData(int section, Qt::Orientation orientation,
-  int role) const
+                                         int role) const
 {
   if (orientation == Qt::Horizontal && role == Qt::DisplayRole)
     return m_RootItem->data(section);
@@ -74,7 +73,8 @@ QVariant SimpleFileTreeModel::headerData(int section, Qt::Orientation orientatio
   return QVariant();
 }
 
-QModelIndex SimpleFileTreeModel::index(int row, int column, const QModelIndex& parent) const
+QModelIndex SimpleFileTreeModel::index(int row, int column,
+                                       const QModelIndex& parent) const
 {
   if (!hasIndex(row, column, parent))
     return QModelIndex();
@@ -97,7 +97,8 @@ QModelIndex SimpleFileTreeModel::parent(const QModelIndex& index) const
   if (!index.isValid())
     return QModelIndex();
 
-  SimpleFileTreeItem* childItem = static_cast<SimpleFileTreeItem*>(index.internalPointer());
+  SimpleFileTreeItem* childItem =
+      static_cast<SimpleFileTreeItem*>(index.internalPointer());
   SimpleFileTreeItem* parentItem = childItem->parentItem();
 
   if (parentItem == m_RootItem)
@@ -120,18 +121,19 @@ int SimpleFileTreeModel::rowCount(const QModelIndex& parent) const
   return parentItem->childCount();
 }
 
-void SimpleFileTreeModel::setupModelData(const QStringList& lines, SimpleFileTreeItem* parent)
+void SimpleFileTreeModel::setupModelData(const QStringList& lines,
+                                         SimpleFileTreeItem* parent)
 {
   for (QString line : lines) {
-    auto fullPath = QDir::cleanPath(line);
+    auto fullPath           = QDir::cleanPath(line);
     QStringList lineEntries = fullPath.split("/");
-    auto currentParent = m_RootItem;
+    auto currentParent      = m_RootItem;
 
     for (int i = 0; i < lineEntries.count(); i++) {
-      QString currentEntryName = lineEntries[i];
+      QString currentEntryName         = lineEntries[i];
       SimpleFileTreeItem* currentEntry = nullptr;
 
-      //check if item was already added
+      // check if item was already added
       if (currentParent->childCount() > 0) {
         for (auto child : currentParent->children()) {
           if (child->data(0).toString() == currentEntryName) {
@@ -141,7 +143,7 @@ void SimpleFileTreeModel::setupModelData(const QStringList& lines, SimpleFileTre
         }
       }
 
-      //add tree item if not found
+      // add tree item if not found
       if (currentEntry == nullptr) {
         QVector<QVariant> columnData;
         columnData.reserve(m_ColumnCount);
@@ -150,7 +152,7 @@ void SimpleFileTreeModel::setupModelData(const QStringList& lines, SimpleFileTre
         currentParent->appendChild(currentEntry);
       }
 
-      //as we go deeper into the path
+      // as we go deeper into the path
       currentParent = currentEntry;
     }
   }
