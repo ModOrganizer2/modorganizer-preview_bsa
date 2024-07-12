@@ -6,7 +6,8 @@
 #include <QLineEdit>
 #include <QModelIndex>
 #include <QVariant>
-#include <filterwidget.h>
+
+#include <uibase/filterwidget.h>
 
 using namespace MOBase;
 
