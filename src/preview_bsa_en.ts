@@ -19,17 +19,17 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="previewbsa.cpp" line="148"/>
+        <location filename="previewbsa.cpp" line="147"/>
         <source>Archive Format: %1 , Compression: %2 , File count: %3 , Version: %4 , Archive type: %5 , Archive flags: %6</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="previewbsa.cpp" line="153"/>
+        <location filename="previewbsa.cpp" line="152"/>
         <source>yes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="previewbsa.cpp" line="153"/>
+        <location filename="previewbsa.cpp" line="152"/>
         <source>no</source>
         <translation type="unfinished"></translation>
     </message>
