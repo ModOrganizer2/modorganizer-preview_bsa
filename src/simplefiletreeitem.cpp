@@ -18,9 +18,10 @@ SimpleFileTreeItem::~SimpleFileTreeItem()
   qDeleteAll(m_childItems);
 }
 
-void SimpleFileTreeItem::appendChild(SimpleFileTreeItem* item)
+void SimpleFileTreeItem::appendChild(const QString& name, SimpleFileTreeItem* item)
 {
   m_childItems.append(item);
+  m_childItemsByName.insert(name, item);
 }
 
 SimpleFileTreeItem* SimpleFileTreeItem::child(int row)
@@ -28,6 +29,11 @@ SimpleFileTreeItem* SimpleFileTreeItem::child(int row)
   if (row < 0 || row >= m_childItems.size())
     return nullptr;
   return m_childItems.at(row);
+}
+
+SimpleFileTreeItem* SimpleFileTreeItem::childByName(const QString& name)
+{
+  return m_childItemsByName.value(name);
 }
 
 QVector<SimpleFileTreeItem*> SimpleFileTreeItem::children()
