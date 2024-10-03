@@ -11,9 +11,10 @@ public:
                               SimpleFileTreeItem* parentItem = nullptr);
   ~SimpleFileTreeItem();
 
-  void appendChild(SimpleFileTreeItem* child);
+  void appendChild(const QString& name, SimpleFileTreeItem* child);
 
   SimpleFileTreeItem* child(int row);
+  SimpleFileTreeItem* childByName(const QString& name);
   QVector<SimpleFileTreeItem*> children();
   int childCount() const;
   int columnCount() const;
@@ -23,6 +24,7 @@ public:
 
 private:
   QVector<SimpleFileTreeItem*> m_childItems;
+  QHash<QString, SimpleFileTreeItem*> m_childItemsByName;
   QVector<QVariant> m_itemData;
   SimpleFileTreeItem* m_parentItem;
 };

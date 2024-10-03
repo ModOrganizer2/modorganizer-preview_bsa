@@ -130,18 +130,10 @@ void SimpleFileTreeModel::setupModelData(const QStringList& lines,
     auto currentParent      = m_RootItem;
 
     for (int i = 0; i < lineEntries.count(); i++) {
-      QString currentEntryName         = lineEntries[i];
-      SimpleFileTreeItem* currentEntry = nullptr;
+      QString currentEntryName = lineEntries[i];
 
       // check if item was already added
-      if (currentParent->childCount() > 0) {
-        for (auto child : currentParent->children()) {
-          if (child->data(0).toString() == currentEntryName) {
-            currentEntry = child;
-            break;
-          }
-        }
-      }
+      SimpleFileTreeItem* currentEntry = currentParent->childByName(currentEntryName);
 
       // add tree item if not found
       if (currentEntry == nullptr) {
@@ -149,7 +141,7 @@ void SimpleFileTreeModel::setupModelData(const QStringList& lines,
         columnData.reserve(m_ColumnCount);
         columnData << currentEntryName;
         currentEntry = new SimpleFileTreeItem(columnData, currentParent);
-        currentParent->appendChild(currentEntry);
+        currentParent->appendChild(currentEntryName, currentEntry);
       }
 
       // as we go deeper into the path
