@@ -21,9 +21,10 @@ along with bsa Preview plugin.  If not, see <http://www.gnu.org/licenses/>.
 #define PREVIEWBSA_H
 
 #include <functional>
-#include <ipluginpreview.h>
 
-#include <bsatk.h>
+#include <bsatk/bsatk.h>
+
+#include <uibase/ipluginpreview.h>
 
 class PreviewBsa : public MOBase::IPluginPreview
 {

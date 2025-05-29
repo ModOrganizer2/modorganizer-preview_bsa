@@ -121,8 +121,7 @@ int SimpleFileTreeModel::rowCount(const QModelIndex& parent) const
   return parentItem->childCount();
 }
 
-void SimpleFileTreeModel::setupModelData(const QStringList& lines,
-                                         SimpleFileTreeItem* parent)
+void SimpleFileTreeModel::setupModelData(const QStringList& lines, SimpleFileTreeItem*)
 {
   for (QString line : lines) {
     auto fullPath           = QDir::cleanPath(line);

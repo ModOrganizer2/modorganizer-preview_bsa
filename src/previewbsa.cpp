@@ -16,10 +16,8 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Bsa Preview plugin.  If not, see <http://www.gnu.org/licenses/>.
 */
-#define QT
-
 #include "previewbsa.h"
-#include "simplefiletreemodel.h"
+
 #include <QApplication>
 #include <QFileInfo>
 #include <QImageReader>
@@ -32,10 +30,12 @@ along with Bsa Preview plugin.  If not, see <http://www.gnu.org/licenses/>.
 #include <QTreeWidget>
 #include <QVBoxLayout>
 #include <QtPlugin>
-#include <filterwidget.h>
-#include <utility.h>
 
-#include <log.h>
+#include <uibase/filterwidget.h>
+#include <uibase/log.h>
+#include <uibase/utility.h>
+
+#include "simplefiletreemodel.h"
 
 using namespace MOBase;
 
