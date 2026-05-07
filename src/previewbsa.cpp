@@ -134,7 +134,7 @@ QWidget* PreviewBsa::genBsaPreview(const QString& fileName, const QSize&)
   QLabel* infoLabel = new QLabel();
   BSA::Archive arch;  // bs_archive_auto is easier to use, but is less performant when
                       // working with memory
-  BSA::EErrorCode res = arch.read(fileName.toStdWString().c_str(), true);
+  BSA::EErrorCode res = arch.read(fileName.toStdWString(), true);
   if ((res != BSA::ERROR_NONE) && (res != BSA::ERROR_INVALIDHASHES)) {
     log::error("invalid bsa '{}', error {}", fileName, res);
     infoLabel->setText("Unable to parse archive. Unrecognized format.");
